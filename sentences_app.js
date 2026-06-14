@@ -236,7 +236,7 @@
     
     let currentUnitTitle = currentMode === 'sentences' ? nceSentences[selectedLesson].title : '⭐ 收藏夹';
     html += '<div class="word-info"><strong>' + currentUnitTitle + '</strong> &nbsp;•&nbsp; ' + (queueIndex + 1) + ' / ' + challengeQueue.length + '</div>';
-    html += '<div class="input-hint">在键盘上按下对应的键 ⬆️ (系统会自动跳过符号)</div>';
+    html += '<div class="input-hint">在键盘上按下对应的键 ⬆️ (系统会自动跳过符号和空格)</div>';
 
     practiceArea.innerHTML = html;
 
@@ -310,7 +310,7 @@
     currentWrongCount = 0;
     currentWordHadError = false;
 
-    while (currentIndex < targetChars.length && !/^[a-zA-Z\s]$/.test(targetChars[currentIndex])) {
+    while (currentIndex < targetChars.length && !/^[a-zA-Z]$/.test(targetChars[currentIndex])) {
       currentIndex++;
     }
 
@@ -359,7 +359,7 @@
 
       currentIndex++;
 
-      while (currentIndex < targetChars.length && !/^[a-zA-Z\s]$/.test(targetChars[currentIndex])) {
+      while (currentIndex < targetChars.length && !/^[a-zA-Z]$/.test(targetChars[currentIndex])) {
         const skipEl = $('#char-' + currentIndex);
         if (skipEl) {
           skipEl.classList.remove('current', 'waiting', 'dictation-hidden', 'reveal-hint');
@@ -652,7 +652,7 @@
     practiceArea.innerHTML = `
       <div class="start-prompt">
         <h3>📝 短语与例句</h3>
-        <p>看中文提示，打出英文短语和句子<br>注意大小写，系统会自动跳过标点符号！</p>
+        <p>看中文提示，打出英文短语和句子<br>注意大小写，系统会自动跳过标点符号和空格！</p>
         <button class="btn-start" id="btnStart">开 始 练 习</button>
       </div>
     `;
