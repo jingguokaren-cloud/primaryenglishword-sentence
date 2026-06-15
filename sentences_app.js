@@ -238,7 +238,39 @@
     html += '<div class="word-info"><strong>' + currentUnitTitle + '</strong> &nbsp;•&nbsp; ' + (queueIndex + 1) + ' / ' + challengeQueue.length + '</div>';
     html += '<div class="input-hint">在键盘上按下对应的键 ⬆️ (系统会自动跳过符号和空格)</div>';
 
+    const prevDisabled = queueIndex === 0;
+    const nextDisabled = queueIndex >= challengeQueue.length - 1;
+    
+    html += '<div class="nav-target-buttons" style="display:flex; justify-content:center; gap: 20px; margin-top: 15px;">';
+    html += `<button id="btnPrevTarget" style="padding: 5px 15px; border-radius: 15px; border: 1px solid var(--primary-color); background: transparent; color: var(--primary-color); cursor: ${prevDisabled ? 'not-allowed' : 'pointer'}; opacity: ${prevDisabled ? '0.5' : '1'}; transition: all 0.2s;" ${prevDisabled ? 'disabled' : ''}>⬅️ 上一个</button>`;
+    html += `<button id="btnNextTarget" style="padding: 5px 15px; border-radius: 15px; border: 1px solid var(--primary-color); background: transparent; color: var(--primary-color); cursor: ${nextDisabled ? 'not-allowed' : 'pointer'}; opacity: ${nextDisabled ? '0.5' : '1'}; transition: all 0.2s;" ${nextDisabled ? 'disabled' : ''}>下一个 ➡️</button>`;
+    html += '</div>';
+
     practiceArea.innerHTML = html;
+
+    const btnPrevTarget = $('#btnPrevTarget');
+    if (btnPrevTarget && !btnPrevTarget.disabled) {
+      btnPrevTarget.addEventListener('mouseover', function() { this.style.background = 'var(--primary-color)'; this.style.color = '#0f172a'; });
+      btnPrevTarget.addEventListener('mouseout', function() { this.style.background = 'transparent'; this.style.color = 'var(--primary-color)'; });
+      btnPrevTarget.addEventListener('click', () => {
+        if (queueIndex > 0) {
+          queueIndex--;
+          loadNextTarget();
+        }
+      });
+    }
+
+    const btnNextTarget = $('#btnNextTarget');
+    if (btnNextTarget && !btnNextTarget.disabled) {
+      btnNextTarget.addEventListener('mouseover', function() { this.style.background = 'var(--primary-color)'; this.style.color = '#0f172a'; });
+      btnNextTarget.addEventListener('mouseout', function() { this.style.background = 'transparent'; this.style.color = 'var(--primary-color)'; });
+      btnNextTarget.addEventListener('click', () => {
+        if (queueIndex < challengeQueue.length - 1) {
+          queueIndex++;
+          loadNextTarget();
+        }
+      });
+    }
 
     if (currentIndex < targetChars.length) {
       highlightKey(targetChars[currentIndex]);
